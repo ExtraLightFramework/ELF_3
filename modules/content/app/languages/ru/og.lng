@@ -1,0 +1,18 @@
+<?php
+
+$lang['imagelogo.tlt']		= "FineWaySoft разработка веб-сайтов";
+$lang['publisher.name']		= "FineWaySoft - разработчик сайтов, интернет-магазинов, интернет-порталов";
+$lang['publisher.telephone']= "8 989 6149089";
+$lang['publisher.address']	= "Россия";
+$lang['author']				= "FWS";
+$lang['sitename']			= "FineWaySoft";
+$lang['orgname']			= "FineWaySoft";
+$lang['orgtype']			= "Organization";
+$lang['']		= "";
+$lang['']		= "";
+$lang['']		= "";
+$lang['']		= "";
+$lang['']		= "";
+$lang['']		= "";
+$lang['']		= "";
+

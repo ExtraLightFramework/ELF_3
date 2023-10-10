@@ -1,0 +1,175 @@
+<?php
+
+$lang['title']			= "Контент";
+$lang['titlewithrub']	= "Контент. Раздел «%%1%%»";
+$lang['root']			= "Корень";
+$lang['title.tlt']		= "системный контент";
+
+$lang['contedt.unset.title.name']	= 	"Название/заголовок";
+$lang['contedt.unset.title.desc']	=	"Описание";
+$lang['contedt.unset.title.keywords']=	"Ключевые слова";
+$lang['contedt.unset.title.picture']=	"Картинка";
+$lang['contedt.unset.title.text']	=	"Основной текст";
+$lang['contedt.unset.title.first_p'] =	"Первый абзац";
+
+$lang['contedt.news.title.name'] =		"Заголовок новости";
+$lang['contedt.news.title.desc'] =		"Описание";
+$lang['contedt.news.title.keywords'] =	"Ключевые слова";
+$lang['contedt.news.title.picture'] =	"Основная картинка новости";
+$lang['contedt.news.title.text'] =		"Текст новости";
+$lang['contedt.news.title.first_p'] =	"Первый абзац новости";
+
+$lang['contedt.doc.title.name'] =		"Заголовок документа";
+$lang['contedt.doc.title.desc'] =		"Описание";
+$lang['contedt.doc.title.keywords'] =	"Ключевые слова";
+$lang['contedt.doc.title.picture'] =	"Основная картинка для документа";
+$lang['contedt.doc.title.text'] =		"Текст документа";
+$lang['contedt.doc.title.first_p'] =	"Первый абзац документа";
+
+$lang['contedt.article.title.name'] =	"Заголовок статьи";
+$lang['contedt.article.title.desc'] =	"Описание";
+$lang['contedt.article.title.keywords']="Ключевые слова";
+$lang['contedt.article.title.picture'] ="Основная картинка для статьи";
+$lang['contedt.article.title.text'] =	"Текст статьи";
+$lang['contedt.article.title.first_p'] ="Первый абзац статьи";
+
+$lang['contedt.review.title.name'] =	"Имя участника";
+$lang['contedt.review.title.desc'] =	"Место проживания, адрес";
+$lang['contedt.review.title.keywords'] ="Активная ссылка для портрета";
+$lang['contedt.review.title.picture'] =	"Портрет участника";
+$lang['contedt.review.title.text'] =	"Текст отзыва";
+$lang['contedt.review.title.first_p'] =	"Первый абзац отзыва";
+
+$lang['contedt.faq.title.name'] =		"Заголовок для страницы вопроса";
+$lang['contedt.faq.title.desc'] =		"Вопрос";
+$lang['contedt.faq.title.keywords'] =	"Ключевые слова";
+$lang['contedt.faq.title.picture'] =	"Портрет участника";
+$lang['contedt.faq.title.text'] =		"Ответ на вопрос";
+
+$lang['contedt.video.title.name'] =		"Заголовок видеостраницы";
+$lang['contedt.video.title.desc'] =		"Описание видео SEO";
+$lang['contedt.video.title.keywords'] =	"Ключевые слова для SEO";
+$lang['contedt.video.title.picture'] =	"Портрет участника";
+$lang['contedt.video.title.text'] =		"Ссылка на видео (YouTube)";
+$lang['contedt.video.desc.on.page'] =	"Описание видеорилока на WEB страницу";
+
+$lang['contedt.progs.title.name'] =		"Название программы";
+$lang['contedt.progs.title.desc'] =		"Текст (анонс) на главную";
+$lang['contedt.progs.title.keywords'] =	"Ключевые слова";
+$lang['contedt.progs.title.picture'] =	"Картинка для страницы программы";
+$lang['contedt.progs.title.text'] =		"Текст программы";
+$lang['contedt.progs.title.first_p'] =	"Первый абзац текста программы";
+
+$lang['contedt.partners.title.name'] =	"Наименование партнера";
+$lang['contedt.partners.title.desc'] =	"Текст о партнере на главную";
+$lang['contedt.partners.title.keywords']="Ключевые слова";
+$lang['contedt.partners.title.picture']="Логотип партнера";
+$lang['contedt.partners.title.text'] =	"Рассказ о парнере";
+
+$lang['title.rubric.news']			= "Новости ELFа";
+$lang['title.rubric.video']			= "Видеоматериалы";
+$lang['title.rubric.reviews']		= "Отзывы участников";
+$lang['title.rubric.tags']			= "Материалы по хэштегу";
+$lang['title.rubric.faq']			= "Часто задаваемые вопросы";
+$lang['title.rubric.partners']		= "Друзья и партнеры ELFа";
+$lang['title.rubric.progs']			= "Программы роста ELF";
+
+$lang['text']			= "Текст/статья";
+$lang['video']			= "Видео";
+$lang['picture']		= "Картинки";
+$lang['faq']			= "Вопросы/ответы";
+
+$lang['rss.defaultimgpath']		= "img/design/no-image-icon.jpg";
+$lang['rss.categoty.main']		= "Главная";
+$lang['rss.categoty.news']		= "Новости";
+$lang['rss.categoty.faq']		= "Вопросы и ответы";
+$lang['rss.categoty.page']		= "Статьи";
+$lang['rss.categoty.docs']		= "Документы";
+$lang['rss.author']				= "FWS";
+$lang['rss.successfull']		= "Файл SITEMAP.XML, АМР и Турбо-страницы сформированы";
+
+$lang['admin.title.docs']		= "Документы сайта";
+$lang['admin.title.page']		= "Статьи сайта";
+$lang['admin.title.news']		= "Новости сайта";
+$lang['admin.title.reviews']	= "Отзывы о проекте";
+$lang['admin.title.faq']		= "Часто задаваемые вопросы";
+$lang['admin.title.video']		= "Видеоматериалы проекта";
+
+$lang['admin.refillpos']		= "Перемешать позиции";
+$lang['admin.refillpos.tlt']	= "назначить новые случайные позиции материалам (перемешать)";
+$lang['admin.createamp']		= "AMP и турбо-страницы";
+$lang['admin.createamp.tlt']	= "сформировать файл SITEMAP.XML, AMP страницы и RSS-файл турбо-страниц";
+
+$lang['newitem']				= "Новый материал";
+$lang['newitem.tlt']			= "добавить новый материал";
+$lang['actions']				= "Операции";
+$lang['name']					= "Название";
+$lang['desc']					= "Описание";
+$lang['activelnk']				= "Активная ссылка";
+$lang['keywords']				= "Ключевые слова";
+$lang['picture']				= "Картинка";
+$lang['date']					= "Дата";
+$lang['tmedit']					= "Дата модификации";
+$lang['pos']					= "Позиция";
+$lang['videodesc']				= "Описание видео";
+$lang['picturealt']				= "Альтернативный текст картинки";
+$lang['itemtags']				= "Хэш-теги материала";
+$lang['itemtags.plc']			= "впишите сюда новые хэш-теги через пробел";
+$lang['itemtags.added']			= "Ранее добавленные хэш-теги";
+$lang['itemtags.notfound']		= "Для данного материала хэш-теги не найдены";
+$lang['anons']					= "Анонс";
+$lang['alias']					= "Алиас";
+$lang['content_type']			= "Тип контента";
+$lang['select.content_type']	= "укажите тип контента";
+$lang['content_types.not.found']= "Типы единиц конетнта не заведены в системе. Воспользуйтесь ссылкой <a href=\"/settings\">Установки</a> для заведения типов контента. Используйте этот префикс <b>CONTENT_TYPE_</b> для таких установок.";
+$lang['alias.notunique']		= "Алиас не уникален. Попробуйте изменить заголовок, добавьте лишний пробел или переформулируйте одно из первых 7-ми слов";
+$lang['hotitem']				= "горячий материал";
+$lang['hotitem.tlt']			= '"Горячий" материал';
+$lang['edtitem.tlt']			= "редактировать материал";
+$lang['delitem.tlt']			= "удалить материал";
+$lang['delitem.cnfrm']			= "Подтвердите удаление материала";
+$lang['visible.tlt']			= "временное отключение страницы на сайте";
+$lang['visible.0']				= "невидима";
+$lang['visible.1']				= "видима";
+$lang['openinnewtab']			= "открыть страницу в отдельной вкладке";
+$lang['showall']				= "показать полностью";
+$lang['default.alt']			= "картинка материала";
+$lang['no.alt']					= "ALT текст не задан";
+$lang['chposprev']				= "поменять позицию с предыдущим";
+$lang['chposnext']				= "поменять позицию с последующим";
+$lang['setnewpos']				= "задать новую позицию для записи";
+$lang['canclear']				= "можно оставить пустым";
+$lang['read.all.news']			= "прочитать новость полностью";
+$lang['read']					= "Читать";
+$lang['gotouserlnk']			= "перейти по ссылке предоставленной пользователем";
+$lang['userreview']				= "отзыв участника";
+$lang['swanswer']				= "показать/скрыть ответ";
+
+$lang['edit.newitem']			= "Новый материал";
+$lang['edit.item']				= "Редактирование материала";
+
+$lang['structure.title']		= "Структура контента";
+
+$lang['rubric.new']				= "Новый раздел";
+$lang['rubric.edit.tlt']		= "редактирование раздела (подраздела) контента";
+$lang['rubric.del.tlt']			= "удалить раздел";
+$lang['rubrics.not.found']		= "рубрики не найдены";
+$lang['rubric.name']			= "Название рубрики";
+$lang['rubric.edit.dtitle']		= "Редактирование рубрики";
+$lang['rubric.open']			= "открыть рубрику";
+$lang['rubric.cnt.items']		= "количество элементов рубрики";
+$lang['error.rubric.del']		= "Удаление рубрики невозможно, т.к. это рубрика верхнего уровня и у нее имеются дочерние элементы. Сначала необходимо удалить/перенести все дочерние элементы";
+
+$lang['amp.organization.name']		= "ELF - Extra Ligth Framework";
+$lang['amp.organization.telephone']	= "8 800 100 00 00";
+$lang['amp.organization.address']	= "Москва";
+$lang['schemaorg.newsgenre']		= "Новости от ELF";
+$lang['schemaorg.noimgalt']			= "ELF cool framework";
+
+$lang['confirm.del.rubric']			= "Внимание, удаление рубрики! Все элементы рубрики и её подрубрики будут переданы предку удаляемой рубрики. Если все верно - нажмите ОК";
+$lang['rubric.parent']				= "Рубрика-родитель";
+$lang['structure']					= "Структура";
+$lang['subrubricscnt']				= "количество подрубрик";
+
+$lang['breadcrumbs.root']			= "Главная";
+$lang['pageof']						= "Страница %%1%%";

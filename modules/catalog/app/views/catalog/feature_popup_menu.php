@@ -1,0 +1,3 @@
+<a href="javascript:;" class="popup-mnu-lnk" data-params="dialog=catalog/feature_add;caption=<% lang:catalog:featurecreate %>;modal=yes<?=Elf::get_data('cid')?';cid='.Elf::get_data('cid'):''?>" onclick="feature_add(this,'<% feature_plc %>')" title="<% lang:catalog:add.feat.tlt %>"><% lang:catalog:add.feat %></a>
+<a href="javascript:;" class="popup-mnu-lnk" data-params="" onclick="showDialog(this)" title="<% lang:catalog:clone.feat.tlt %>"><% lang:catalog:clone.feat %></a>
+<a href="javascript:;" class="popup-mnu-lnk" data-params="" onclick="showDialog(this)" title="<% lang:catalog:copy.feat.tlt %>"><% lang:catalog:copy.feat %></a>

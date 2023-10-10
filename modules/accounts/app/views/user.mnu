@@ -1,0 +1,1 @@
+	<a href="/accounts/index" title="<% lang:accounts:sysusers %>" <?=Elf::routing()->controller()=='accounts'?'class="selected"':''?>><% lang:accounts:sysaccs %></a>

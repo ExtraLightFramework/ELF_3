@@ -1,0 +1,8 @@
+body {padding:15px;margin:0;font-family:Tahoma,Verdana,Arial;font-size:13px;}
+
+#frm-cont {position:relative;overflow:hidden;width: calc(100% - 30px);}
+#frm-cont form {position:absolute;padding:20px;background:#eee;border:5px solid #ddd;width: calc(100% - 50px);}
+
+table td,table th {vertical-align:top;padding:15px;}
+
+input[type=button],input[type=submit] {padding:10px 20px;font-weight:bold;font-size:17px;margin-top:15px;}

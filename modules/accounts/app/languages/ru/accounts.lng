@@ -1,0 +1,36 @@
+<?php
+
+$lang['reg.error.email'] 		= "Ошибка в адресе электронной почты. Пример: mailbox@mail.dom";
+$lang['reg.error.emailexists'] 	= "Указанный Вами email уже зарегистрирован";
+$lang['reg.error.password']		= "Указанные Вами пароли не совпадают";
+$lang['reg.error.phone']		= "Неверно указан номер телефона. Пример: +7 900 123-12-12";
+
+$lang['error.userfound']= "Пользователь в системе не найден";
+$lang['error.email']	= "Не указан адрес электронной почты, либо неверный формат";
+$lang['error.password']	= "Введенные пароли не совпадают, либо имеют длину менее 6-ти символов";
+
+$lang['admin.title']	= "Пользователи";
+$lang['search.title']	= "Email, логин или ID";
+$lang['acoount.regdate']= "Дата регистрации";
+$lang['lastvisit']		= "Последний визит";
+$lang['lastip']			= "Последний IP";
+$lang['usergroup']		= "Группы пользователя";
+$lang['user']			= "пользователь";
+$lang['admin']			= "админ";
+$lang['tech']			= "тех.персонал";
+$lang['regdate']		= "Дата регистрации";
+$lang['changepasswd']	= "сменить пароль";
+$lang['newpasswd']		= "Новый пароль";
+$lang['repeatpasswd']	= "Повторите пароль";
+$lang['login']			= "Логин";
+$lang['email']			= "Email";
+$lang['phone']			= "Телефон";
+$lang['name']			= "Имя";
+$lang['reg']			= "рег.";
+$lang['datetimereg']	= "дата и время регистрации";
+$lang['usercard']		= "Карточка пользователя";
+$lang['usercardopen']	= "открыть карточку пользователя";
+$lang['cab']			= "Кабинет пользователя";
+
+$lang['sysusers']		= "пользователи системы";
+$lang['sysaccs']		= "Уч. записи";

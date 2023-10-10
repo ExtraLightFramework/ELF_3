@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<modules>
+	<module>
+		<name>elf_galery</name>
+	</module>
+	<module>
+		<name>content</name>
+	</module>
+	<module>
+		<name>accounts</name>
+	</module>
+	<module>
+		<name>catalog</name>
+		<dependencies>
+			<depend>elf_galery</depend>
+		</dependencies>
+	</module>
+</modules>

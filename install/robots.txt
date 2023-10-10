@@ -1,0 +1,6 @@
+User-agent: *
+Allow: *
+Disallow: /admin
+Disallow: /route
+Host: <% site_url %>
+Sitemap: <% site_url %>sitemap.xml

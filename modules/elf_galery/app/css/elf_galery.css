@@ -1,0 +1,25 @@
+/*==== HTML Sample
+<div id="photo-galery" class="photo-galery">
+	<div class="galery-items">
+		<div class="arr l-arr fas fa-chevron-circle-left"></div>
+		<div class="arr r-arr fas fa-chevron-circle-right"></div>
+		<!-- сюда будут вставляться изображения -->
+	</div>
+</div>
+
+
+div.galery-items {width:100%;height:150px;padding:20px;text-align:center;} */
+div.galery-items {position:relative;overflow:hidden;height:inherit;}
+div.galery-items i.arr {z-index:20;position:absolute;cursor:pointer;top:49%;font-size:19px;color:#000;
+	border:1px solid #fff;border-radius:50%;}
+div.galery-items i.arr:hover {color:#aaa;}
+
+div.galery-items i.l-arr {left:10px;}
+div.galery-items i.r-arr {right:10px;}
+/*
+div.galery-items div.l-arr:hover {background:transparent url(/img/design/galery/l-arr.png) -60px center no-repeat;}
+div.galery-items div.r-arr:hover {background:transparent url(/img/design/galery/r-arr.png) -60px center no-repeat;}
+*/
+
+div.galery-items div.galery-item {position:absolute;overflow:hidden;}
+div.galery-items div.galery-item img {height:inherit;}

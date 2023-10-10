@@ -1,0 +1,1 @@
+	<a href="/content/index" title="<% lang:content:title.tlt %>" <?=Elf::routing()->controller()=='content'?'class="selected"':''?>><% lang:content:title %></a>
