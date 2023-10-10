@@ -1,6 +1,6 @@
 RewriteEngine on
 
-# все редиректы в таблице rkst_redirector
+# все редиректы в таблице redirector
 
 # Prevent rewrite the .well-known directory used by LetsEncrypt by rules below of this rule
 RewriteRule "^\.well-known/" - [L]
@@ -15,8 +15,8 @@ RewriteCond %{HTTP_HOST} ^www.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
 # Force rewrite to https for every host #!^on$
-RewriteCond %{HTTPS} =off
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteCond %{HTTPS} =off
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
