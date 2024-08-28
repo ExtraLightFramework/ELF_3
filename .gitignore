@@ -1,4 +1,8 @@
 _install/
+install/
+!install/.gitsource
+modules/
+!modules/.gitsource
 8921fbe5c05fc58991abc3218d1d44c1/*
 img/*
 !img/design/

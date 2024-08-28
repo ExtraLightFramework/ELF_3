@@ -1,1 +1,0 @@
-	<a href="/catalog/admin" title="<% lang:catalog:title.tlt %>" <?=Elf::routing()->controller()=='catalog'?'class="selected"':''?>><% lang:catalog:title %></a>
