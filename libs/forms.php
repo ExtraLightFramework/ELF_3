@@ -377,7 +377,7 @@ class Forms extends Db {
 					elseif ($rec['fields'][$k]['type'] == 'date') {
 						switch ($tfields[$k]['table_type']) {
 							case 'int':
-								$v = Elf::date2timestamp($v);
+								$v = Elf::app()->date2timestamp($v);
 								break;
 							case 'date':
 								$v = preg_replace("/(\d{2})\.(\d{2})\.(\d{4})/","${3}-${2}-${1}",$v);

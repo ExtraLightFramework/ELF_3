@@ -19,11 +19,14 @@ class Elf {
 	static private $app_lang_path;
 	
 	static private $layout;
+	static private $elfapp;
 
+	static private $groups;
 	static private $input;
 	static private $routing;
 	static private $session;
 	static private $settings;
+	static private $options;
 	static private $history;
 	static private $slog;
 	static private $lang;
@@ -42,19 +45,19 @@ class Elf {
 		self::$app_models_path = ROOTPATH.APP_DIR.'/'.MODELS_DIR.'/';
 		self::$lang_path = ROOTPATH.LANGS_DIR.'/'.SYSTEM_LANGUAGE.'/';
 		self::$app_lang_path = ROOTPATH.APP_DIR.'/'.LANGS_DIR.'/'.SYSTEM_LANGUAGE.'/';
+		self::$elfapp = null;
 //		echo self::$app_views_path;exit;
 
 		set_exception_handler('Elf::exception_handler');
 		spl_autoload_register('Elf::_autoload');
 		
-		
-		Elf::$_data = [];
-		
 		self::$settings = new Elf\Libs\Settings;
+		self::$options = new Elf\Libs\Options;
 		
 		if (REDIRECTOR_ENABLED) // From old Site redirector
 			Elf\Libs\Redirector::redirect();
 
+		self::$groups = new Elf\Libs\Users_groups;
 		self::$input = new Elf\Libs\Input;
 		self::$routing = new Elf\Libs\Routing;
 		self::$session = new Elf\Libs\Session;
@@ -106,7 +109,7 @@ class Elf {
 	static public function _autoload($class = '') {
 		$path = '';
 		if (empty($class)) {
-			throw new Exception('Class name is empty');
+			throw new \Exception('Class name is empty');
 		}
 		$path = str_replace("Elf\\","",$class);
 		$path = strtolower(str_replace("\\","/",$path));
@@ -120,10 +123,14 @@ class Elf {
 				self::$loaded_classes[$class] = $classld;
 			}
 			else
-				throw new \Exception('Class <b>'.$classld.'</b> not found');
+//				throw new \Exception('Class <b>'.$classld.'</b> not found');
+				return false;
 		}
 	}
 // ========= PUBLIC GETTERS =========	
+	static public function groups() {
+		return self::$groups;
+	}
 	static public function input() {
 		return self::$input;
 	}
@@ -135,6 +142,9 @@ class Elf {
 	}
 	static public function settings() {
 		return self::$settings;
+	}
+	static public function options() {
+		return self::$options;
 	}
 	static public function history() {
 		return self::$history;
@@ -202,7 +212,7 @@ class Elf {
 	static public function load_template($view = '', $data = null) {
 		if ($data) {
 			if (!is_array($data))
-				throw new Exception("Data is not array");
+				throw new \Exception("Data is not array");
 			$pdata = self::$_data;
 			self::$_data = array_merge(self::$_data,$data);
 		}
@@ -244,12 +254,8 @@ class Elf {
 		return self::session()->get($matches[1]);
 	}
 	static private function _prc_exec($matches) {
-		if (method_exists(__CLASS__, $matches[1])) //function_exists('Elf::'.$matches[1]))
-//			return call_user_func('Elf::'.$matches[1]);
+		if (method_exists(__CLASS__, $matches[1]))
 			return call_user_func_array([__CLASS__, $matches[1]], []);
-//			return call_user_func([__NAMESPACE__ .'\Elf', $matches[1]]);
-//		else
-//			self::write_log("ELF method unexists - {$matches[1]}\n");
 	}
 	static public function isset_data($k) {
 		return isset(self::$_data[$k]);
@@ -323,455 +329,34 @@ class Elf {
 	static public function is_xml_request() {
 		return (self::get_x_request() == XML_STRING);
 	}
-// ============= HELPERS ====================
-	static public function date2timestamp($str) {
-		$ret = 0;
-		$str = explode(".", $str);
-		if (sizeof($str) == 3) {
-			switch ($str[1]) {
-				case '01':
-				case '1':
-					$str[1] = 'January';
-					break;
-				case '02':
-				case '2':
-					$str[1] = 'February';
-					break;
-				case '03':
-				case '3':
-					$str[1] = 'March';
-					break;
-				case '04':
-				case '4':
-					$str[1] = 'April';
-					break;
-				case '05':
-				case '5':
-					$str[1] = 'May';
-					break;
-				case '06':
-				case '6':
-					$str[1] = 'June';
-					break;
-				case '07':
-				case '7':
-					$str[1] = 'July';
-					break;
-				case '08':
-				case '8':
-					$str[1] = 'August';
-					break;
-				case '09':
-				case '9':
-					$str[1] = 'September';
-					break;
-				case '10':
-					$str[1] = 'October';
-					break;
-				case '11':
-					$str[1] = 'November';
-					break;
-				case '12':
-					$str[1] = 'December';
-					break;
-				default:
-					$str[1] = 'January';
-					break;
+	static public function accept_json() {
+		return (bool)(!empty($_SERVER['HTTP_ACCEPT']) && (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false));
+	}
+	static public function get_app_views_path() {
+		return self::$app_views_path;
+	}
+	static public function app() {
+		if (!self::$elfapp) {
+			if (file_exists(ROOTPATH.APP_DIR.'/elfapp.php')) {
+				require_once ROOTPATH.APP_DIR.'/elfapp.php';
+				if (get_parent_class("Elf\\App\\Elfapp") == "Elf\\Elfapp")
+					self::$elfapp = new Elf\App\Elfapp;
+				else
+					throw new \Exception("Elf\\App\\Elfapp class must be extends of Elf\\Elfapp class");
 			}
-			$ret = strtotime($str[0]." ".$str[1]." ".$str[2]);
-		}
-		return $ret>=0?$ret:0;
-	}
-	static public function bigdate2timestamp ($str) {
-		$ret = 0;
-		$str = explode(".", $str);
-		if (sizeof($str) == 3) {
-			$str[1] = (int)$str[1];
-			$str[2] = (int)$str[2];
-			$d = (int)$str[0];
-			if (($d < 1)
-				|| (($d > 31) && in_array($str[1],[1,3,5,7,8,10,12]))
-				|| (($d > 30) && in_array($str[1],[4,6,9,11]))
-				|| (($d > 28) && in_array($str[1],[2]) && $str[2]%4)
-				|| (($d > 29) && in_array($str[1],[2]) && !$str[2]%4))
-				throw new \Exception('Wrong date format <b>'.($str[0].'.'.$str[1].'.'.$str[2]).'</b>');
-			while (--$str[1]) {
-				switch ($str[1]) {
-					case 1:
-					case 3:
-					case 5:
-					case 7:
-					case 8:
-					case 10:
-					case 12:
-						$d += 31;
-						break;
-					case 4:
-					case 6:
-					case 9:
-					case 11:
-						$d += 30;
-						break;
-					case 2:
-						if ($str[2]%4) {
-							$d += 28;
-						}
-						else {
-							$d += 29;
-						}
-						break;
-				}
+			elseif (file_exists(ROOTPATH.'/elfapp.php')) {
+				require_once ROOTPATH.'/elfapp.php';
+				self::$elfapp = new Elf\Elfapp;
 			}
-			$d += $str[2]*365 + (int)($str[2]/4);
-			$d += $str[2]%4?1:0;
-			$ret = $d * SECONDS_IN_DAY - SECONDS_IN_DAY;
+			else
+				throw new \Exception('Elfapp class not defined');
 		}
-		return $ret;
-	}
-	static public function bigtimestamp2date (int $tm) {
-		$d = (int)(($tm+SECONDS_IN_DAY) / SECONDS_IN_DAY);
-		$y = (int)(4*$d / 1461);
-		$d -= ($y*365) + (int)($y/4);
-		$d -= $y%4?1:0;
-		if ($d <= 0) {
-			$d = 31;
-			$m = 12;
-			$y -= 1;
-		}
-		else {
-			$m = 1;
-			$i = $d;
-			while ($i > 0) {
-				switch ($m) {
-					case 1:
-					case 3:
-					case 5:
-					case 7:
-					case 8:
-					case 10:
-					case 12:
-						$i -= 31;
-						break;
-					case 4:
-					case 6:
-					case 9:
-					case 11:
-						$i -= 30;
-						break;
-					case 2:
-						if ($y%4)
-							$i -= 28;
-						else
-							$i -= 29;
-						break;
-				}
-				if ($i > 0) {
-					$d = $i;
-					$m ++;
-				}
-			}
-		}
-		return @str_repeat('0',2-strlen($d)).$d.'.'.@str_repeat('0',2-strlen($m)).$m.'.'.@str_repeat('0',4-strlen($y)).$y;
-	}
-	static public function daysinmonth2bigdate (int $tm) {
-		$d = (int)(($tm+SECONDS_IN_DAY) / SECONDS_IN_DAY);
-		$y = (int)(4*$d / 1461);
-		$d -= ($y*365) + (int)($y/4);
-		$d -= $y%4?1:0;
-		if ($d <= 0) {
-			$d = 31;
-			$m = 12;
-			$y -= 1;
-		}
-		else {
-			$m = 1;
-			$i = $d;
-			while ($i > 0) {
-				switch ($m) {
-					case 1:
-					case 3:
-					case 5:
-					case 7:
-					case 8:
-					case 10:
-					case 12:
-						$i -= 31;
-						$d = 31;
-						break;
-					case 4:
-					case 6:
-					case 9:
-					case 11:
-						$i -= 30;
-						$d = 30;
-						break;
-					case 2:
-						if ($y%4) {
-							$i -= 28;
-							$d = 28;
-						}
-						else {
-							$i -= 29;
-							$d = 29;
-						}
-						break;
-				}
-				$m ++;
-			}
-		}
-		return $d;
-	}
-	static public function translit($st) {
-	// Сначала заменяем "односимвольные" фонемы.
-		$st = iconv('UTF-8','WINDOWS-1251', $st);
-		if ($st) {
-			$st=strtr($st,"абвгдеёзийклмнопрстуфхъэ ",
-					"abvgdeezijklmnoprstufh_e-");
-			$st=strtr($st,"АБВГДЕЁЗИЙКЛМНОПРСТУФХЪЭ ",
-					"ABVGDEEZIJKLMNOPRSTUFH_E-");
-	// Затем - "многосимвольные".
-			$st=strtr($st, 
-					array(
-					"ж"=>"zh", "ц"=>"ts", "ч"=>"ch", "ш"=>"sh", 
-					"щ"=>"shch","ь"=>"", "ю"=>"yu", "я"=>"ya", "ы"=>"yi",
-					"Ж"=>"ZH", "Ц"=>"TS", "Ч"=>"CH", "Ш"=>"SH", 
-					"Щ"=>"SHCH","Ь"=>"", "Ю"=>"YU", "Я"=>"YA", "Ы"=>"YI",
-					"ї"=>"i", "Ї"=>"Yi", "є"=>"ie", "Є"=>"Ye")
-				);
-			$st = iconv('windows-1251','utf-8',$st);
-		}
-		return $st;
-	}
-	static public function json_decode_to_array($json) {
-		if (!empty($json))
-			return (array)json_decode(htmlspecialchars_decode($json));
-		else
-			return null;
-	}
-	static public function padezh($num, $p1 = '', $p2 = '', $p3 = '') {
-		$ed = (int)(($num/10-(int)($num/10))*10);
-		$de = (int)(($num/100-(int)($num/100))*10);
-		if ($num == 0)
-			return $p3;
-		elseif ((($de>=0) && ($de<1)) || ($de>=2)) {
-			if ($ed == 0)
-				return $p3;
-			elseif ($ed == 1)
-				return $p1;
-			elseif (($ed > 1) && ($ed <= 4))
-				return $p2;
-			elseif ($ed >= 5)
-				return $p3;
-		}
-		elseif ($de==1) {
-			return $p3;
-		}
-	}
-	static public function sec_to_hms($sec) {
-		$h = (int)($sec/3600);
-		$m = (int)(($sec - ($h*3600))/60);
-		$s = $sec - ($h*3600) - ($m*60);
-		return str_pad($h, 2, '0', STR_PAD_LEFT).":".str_pad($m, 2, '0', STR_PAD_LEFT).":".str_pad($s, 2, '0', STR_PAD_LEFT);
-	}
-	static public function show_words($s, $col) {
-		$i = 0;
-		$pos = mb_strpos($s, ' ');
-		while ((++$i < $col) && ($pos !== false)) {
-			$pos = mb_strpos($s, ' ', $pos+1);
-		}
-		if ($pos === false)
-			$pos = strlen($s);
-		return mb_substr($s, 0, $pos);
-	}
-	static public function gen_alias($text, $add = '') {
-		return self::gen_chpu($text).($add?'-'.$add:'');
-	}
-	static public function gen_chpu($text) {
-		return strtolower(preg_replace('/[^a-zA-Z0-9\-]+/i','',str_replace([" ","/"],"-",self::translit(self::show_words($text,12)))));
-	}
-	static public function captcha($name = 'captcha', $len = 4, $force = false) {
-		if ((self::session()->get($name) && $force)
-			|| !self::session()->get($name)) {
-			$rndint = self::gen_password($len);
-			self::session()->set($name,$rndint);
-		}
-		else
-			$rndint = self::session()->get($name);		
-		$height=30; 
-		$width=100;  
-		$img = imagecreate($width, $height);
-		
-		$black = imagecolorallocate($img, 0, 0, 0);
-		$white = imagecolorallocate($img, 255, 255, 255);
-		$gray = imagecolorallocate($img, 249, 249, 249);
-		$orange = imagecolorallocate($img, 255, 128, 64);
-		$lightorange = imagecolorallocate($img, 255, 220, 164);
-		$green = imagecolorallocate($img, 63, 166, 150);
-		$darkgreen = imagecolorallocate($img, 14, 63, 56);
-		$red = imagecolorallocate($img, 255, 0, 0);
-		$blue = imagecolorallocate($img, 0, 115, 187);//0073bb
-		
-		imagefilledrectangle($img, 0, 0, $width, $height, $white);
-	//	imagerectangle($img, 0, 0, $width-1, $height-1, $darkgreen);
-		
-		imagettftext($img, 24, 0, 10, 25, $black, ROOTPATH.'fonts/PTSansBold.ttf', $rndint);
-		
-		for ($i=1; $i<=70; $i++) {
-				$int1=rand(5,$width-4);
-				$int2=rand(0,$height);
-				imagesetpixel($img, $int1, $int2, $black);
-				$int3=rand(0,15);
-				$int4=rand(0,15);
-				imageline($img, $int1, $int2, $int1+$int3, $int2+$int4, $white);
-		}
-		
-		$str = '';
-		if (!is_dir(ROOTPATH."img/captcha")) {
-			mkdir(ROOTPATH."img/captcha");
-		}
-		$t = time();
-		if (imagepng($img,ROOTPATH."img/captcha/captcha".$t.".png")) {
-			if ($f = fopen(ROOTPATH.'img/captcha/captcha'.$t.'.png','rb')) {
-				$str = fread($f,filesize(ROOTPATH.'img/captcha/captcha'.$t.'.png'));
-				$str = base64_encode($str);
-				fclose($f);
-				@unlink(ROOTPATH.'img/captcha/captcha'.$t.'.png');
-			}
-		}
-		return $str?"data:image/png;base64,{$str}":"";
-	}
-	static public function gen_password($number) {
-/*		'a','b','c','d','e','f',
-        'g','h','i','j','k','l',
-        'm','n','o','p','r','s',
-        't','u','v','x','y','z',
-		'A','B','C','D','E','F',
-         'G','H','I','J','K','L',
-         'M','N','O','P','R','S',
-         'T','U','V','X','Y','Z',
-*/
-    	$arr = array(
-                'a','b','c','d','e','f',
-        		'g','h','i','j','k','l',
-        		'm','n','o','p','q','r','s',
-		        't','u','v','w','x','y','z');//, 
-//                 '1','2','3','4','5','6',
-//                '7','8','9','0');
-	    $pass = "";
-
-	    for($i = 0; $i < $number; $i++)
-	    {
-			$index = rand(0, count($arr) - 1);
-			$pass .= $arr[$index];
-		}
-    	return $pass;
-	}
-	static public function send_mail($to, $subject, $text, $sign='', $from = '', $attach_files = []) {
-		$text = stripslashes(wordwrap($text, 70));
-		$to = trim($to);
-		$subject = trim($subject);
-		$from = $from?$from:MAIL_SENDER;
-		$sign = $sign?$sign:(defined('MAIL_SIGN')?MAIL_SIGN:$from);
-
-	// Заголовки письма === >>>
-	$headers = "Return-Path: ".$from."\r\nReply-to: ".$from."\r\n";
-	$headers .= "From: =?utf-8?B?".base64_encode($sign)."?= <".$from.">\r\n";
-	$headers .= "Date: " . date("r") . "\r\n";
-//	$headers .= "X-Mailer: Php-mailer(".phpversion().")\r\n";
-	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "List-Unsubscribe: <".self::site_url()."main/unsubscribe/".base64_encode($to).">\r\n";
-	$headers .= "Content-Type: multipart/alternative;\r\n";
-	$baseboundary = "------------" . strtoupper(md5(uniqid(rand(), true)));
-	$headers .= "  boundary=\"$baseboundary\"\r\n";
-	// <<< ====================
-
-	// Тело письма === >>>
-	$message  =  "--$baseboundary\r\n";
-	$message .= "Content-Type: text/plain;\r\n";
-	$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-	$message .= strip_tags($text)."\nUnsubscribe - ".self::site_url()."main/unsubscribe/".base64_encode($to)."\r\n";
-	$message .= "--$baseboundary\r\n";
-	$message .= "Content-Type: text/html; charset=utf-8\r\n";
-	$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-	$message .= $text . "<br /><br /><p style=\"font-size:10px;color:#999;\">Unsubscribe <a href=\"".self::site_url()."main/unsubscribe/".base64_encode($to)."\">link</a></p>\r\n\r\n";
-	if (sizeof($attach_files)) {
-		foreach ($attach_files as $v) {
-			if (is_file($v) && ($f = fopen($v, 'rb'))) {
-				$file = fread($f, filesize($v));
-				fclose($f);
-				$message .= "--$baseboundary\r\n"; 
-				$message .= "Content-Type: application/octet-stream; name=\"".basename($v)."\"\r\n";  
-				$message .= "Content-Transfer-Encoding: base64\r\n"; 
-				$message .= "Content-Disposition: attachment; filename=\"".basename($v)."\"\r\n\r\n"; 
-				$message .= chunk_split(base64_encode($file))."\r\n";
-			}
-		}
-	}
-	// <<< ==============
-//
-//		$header = "Return-Path: ".MAIL_SENDER."\r\nSender: ".MAIL_SENDER."\r\nReply-to: %%from%%\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: =?utf-8?B?".base64_encode($sign)."?= <".MAIL_SENDER.">\r\nX-Mailer: PHP/".phpversion()."\r\n\r\n";
-//		$header = str_replace("%%from%%",$from,$header);
-		if (REAL_SEND_MAIL) {
-			mail($to, $subject, $message, $headers, "-f ".$from);
-/*			$sendmail = '/usr/sbin/exim -i -f '.$from.' '.$to;
-			$fd = popen($sendmail, "w"); 
-//			fputs($fd, "To: ".$to."\r\n"); 
-			fputs($fd, "Subject: =?utf-8?B?".base64_encode($subject)."?=\r\n"); 
-			fputs($fd, $headers);
-			fputs($fd, $message); 
-			pclose($fd);
-			unset($sendmail);
-*/		}
-		else {
-			if ($log = fopen(ROOTPATH.'logs/lastmail.html','wb')) {
-				fputs($log, "To: ".$to."\r\n"); 
-				fputs($log, "Subject: =?utf-8?B?".base64_encode($subject)."?=\r\n"); 
-				fputs($log, $headers);
-				fputs($log, $message); 
-				fclose($log);
-			}
-		}
-		return true;
+		return self::$elfapp;
 	}
 	static public function write_log($mess, $logfile = 'log.txt') {
 		if ($f = fopen(ROOTPATH.'logs/'.$logfile, 'ab')) {
 			fwrite($f, date('d/m/y H:i:s').": ".$mess."\n");
 			fclose($f);
 		}
-	}
-	static public function curl_request($url, $dt = null, $method = "POST", $cookie = '', $headers = null) {
-		if (!function_exists('curl_init'))
-			throw new \Exception('CURL module not installed');
-		$ch = curl_init();
-		if ($headers) {
-			if (!is_array($headers))
-				$headers = explode("\r\n",$headers);
-			if ($dt)
-				$headers[] = 'Content-Length: '.strlen($dt);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_HEADER, 0);
-		}
-		if ($cookie) {
-			if (!is_array($cookie))
-				$cookie = explode("\r\n",$cookie);
-			curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-		}
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-		if ($dt) {
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $dt);
-		}
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		if (($ret = curl_exec($ch)) === false) {
-			$error['error'] = curl_error($ch);
-			$error = json_encode($error);
-		}
-		curl_close($ch);
-		return isset($error)?json_decode($error, true):json_decode($ret, true);
-	}
-	
-	static public function get_app_views_path() {
-		return self::$app_views_path;
 	}
 }

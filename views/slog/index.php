@@ -18,7 +18,7 @@
 			<tr class="elf-stat-data">
 				<td><?=Elf::lang('slog')->item($ma)?></td>
 		<?php foreach ($stat as $k=>$v):if ($k != 'settings'):?>
-				<td><?=$v[$ma]['cnt']?> / <?=Elf::sec_to_hms($v[$ma]['duration'])?></td>
+				<td><?=$v[$ma]['cnt']?> / <?=Elf::app()->sec_to_hms($v[$ma]['duration'])?></td>
 		<?php endif;endforeach;?>
 			</tr>
 		<?php endforeach;?>

@@ -22,7 +22,7 @@
 				<?php if (!empty($v['content_items'])):?>
 					<?php foreach ($v['content_items'] as $c):?>
 					<div class="tag-content-item" id="ctag-<?=$v['id']?>-<?=$c['id']?>">
-						<span title="<?=$c['title']?>"><?=Elf::show_words($c['title'],3)?>...</span>
+						<span title="<?=$c['title']?>"><?=Elf::app()->show_words($c['title'],3)?>...</span>
 						<a href="javascript:;" title="<% lang:tags:removecontentag %>" class="del"
 							onclick="rem_content_tag(<?=$v['id']?>,<?=$c['id']?>)">x</a>
 					</div>

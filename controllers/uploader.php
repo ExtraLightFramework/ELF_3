@@ -15,7 +15,7 @@ class Uploader {
 	function __construct() {
 		$this->params = [];
 		if (Elf::input()->get('params')) {
-			Elf::input()->set('params',Elf::json_decode_to_array(Elf::input()->get('params')));
+			Elf::input()->set('params',Elf::app()->json_decode_to_array(Elf::input()->get('params')));
 			$this->params = Elf::input()->get('params');
 		}
 		if (!Elf::input()->get('model')||(Elf::input()->get('model')=='uploaders'))
@@ -66,7 +66,7 @@ class Uploader {
 		}
 
 		$tmp_name = $_FILES[$field]['tmp_name'];
-		$fname = !isset($this->params['translit'])||$this->params['translit']?str_replace(" ","-",Elf::translit($_FILES[$field]['name'])):$_FILES[$field]['name'];
+		$fname = !isset($this->params['translit'])||$this->params['translit']?str_replace(" ","-",Elf::app()->translit($_FILES[$field]['name'])):$_FILES[$field]['name'];
 		if (!is_uploaded_file($tmp_name)) {
 			echo json_encode(array('error'=>'Can not load on server '.$_FILES[$field]['name']));
 			exit;

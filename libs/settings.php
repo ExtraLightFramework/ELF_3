@@ -41,7 +41,7 @@ class Settings extends Db {
 			if (isset($data['desc']) && !$data['desc'])
 				unset($data['desc']);
 			if (!empty($data['expire']))
-				$data['expire'] = Elf::date2timestamp($data['expire']);
+				$data['expire'] = Elf::app()->date2timestamp($data['expire']);
 			else
 				$data['expire'] = 0;
 			if ((!empty($data['id'])

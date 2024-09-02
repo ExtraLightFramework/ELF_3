@@ -63,7 +63,7 @@ class Users extends Db {
 			$code = md5($rec['email'].':'.$rec['login'].':'.$rec['id'].':'.md5(SECRET_WORD));
 			$this->_update(['restore_code'=>$code])
 					->_where("`id`=".$rec['id'])->_limit(1)->_execute();
-			Elf::send_mail($rec['email'],Elf::lang()->item('rempass.subject'),Elf::load_template('main/pass_remletter',['code'=>$code]));
+			Elf::app()->send_mail($rec['email'],Elf::lang()->item('rempass.subject'),Elf::load_template('main/pass_remletter',['code'=>$code]));
 			Elf::$_data['error'] = Elf::lang()->item('success.passrem.request',Elf::input()->get('email'));
 		}
 		return !empty($rec)?true:false;
